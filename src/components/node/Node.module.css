@@ -1,0 +1,9 @@
+.textNode {
+    border: 2px solid white;
+    background-color: aqua;
+    color: black;
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+}

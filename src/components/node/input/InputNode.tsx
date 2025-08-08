@@ -1,0 +1,52 @@
+import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { nanoid } from "nanoid";
+import { useCallback, useState } from "react";
+import styles from './InputNode.module.css'
+
+export const InputNode = () => {
+    const [input, setInput] = useState('')
+    const [level, setLevel] = useState('top')
+    const {setNodes} = useReactFlow()
+
+    const handleClick = () => {
+        setNodes((prevNodes) => [
+            ...prevNodes, 
+            {
+                id: nanoid(),
+                type: 'text',
+                position: {
+                    x: Math.random() * 100,
+                    y: Math.random() * 100
+                },
+                data: {
+                    text: input,
+                    level: level
+                }
+            }
+        ])
+
+        setInput('')
+    }
+ 
+  return (
+    <div className={styles.inputBody}>
+    <Handle type="target" position={Position.Top}/>
+ 
+        
+        <input 
+            id="text" 
+            name="text" 
+            onChange={(e) => setInput(e.target.value)} 
+            className="nodrag"
+            value={input}
+        />
+        <select onChange={(e) => setLevel(e.target.value)}>
+          <option value="top">Top Level</option>
+          <option value="unit">Unit level</option>
+        </select>
+        <button onClick={handleClick}>Add</button>
+     
+      <Handle type="source" position={Position.Bottom}/>
+    </div>
+  );
+}
