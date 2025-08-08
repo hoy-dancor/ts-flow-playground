@@ -19,7 +19,7 @@ export const TextNode = ({data, id}: NodeProps<TextNodeProps>) => {
     <>
       <div className={styles.textNode}>
         <span>{data.text}</span>
-        <button onClick={handleClick}>X</button>
+        <span onClick={handleClick} className={styles.delete}>X</span>
       </div>
       <CustomHandle type="source" position={Position.Right}/>
       {data.level !== "top" && <CustomHandle type="target" position={Position.Left}/>}
