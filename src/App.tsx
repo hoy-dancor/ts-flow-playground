@@ -63,6 +63,12 @@ export default function App() {
     edgeReconnectSuccessful.current = true;
     setEdges((prevEdges) => reconnectEdge(oldEdge, newConnection, prevEdges));
   };
+
+  const onReconnectEnd = (_: MouseEvent | TouchEvent, edge: Edge) => {
+    if (!edgeReconnectSuccessful.current) {
+      setEdges(prevEdges => prevEdges.filter((prevEdge) => prevEdge.id !== edge.id))
+    }
+  };
  
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -84,6 +90,7 @@ export default function App() {
         onPaneClick={onPaneClick}
         onReconnectStart={onReconnectStart}
         onReconnect={onReconnect}
+        onReconnectEnd={onReconnectEnd}
       >
         <Panel 
           position='top-right'
