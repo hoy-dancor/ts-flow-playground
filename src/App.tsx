@@ -1,6 +1,6 @@
 
-import { useState, useCallback } from 'react';
-import { ReactFlow, addEdge, type Connection, type Edge, useNodesState, useEdgesState, Background, MiniMap, Controls, BackgroundVariant, MarkerType, ConnectionMode, Panel } from '@xyflow/react';
+import { useState, useCallback, useRef } from 'react';
+import { ReactFlow, addEdge, type Connection, type Edge, useNodesState, useEdgesState, Background, MiniMap, Controls, BackgroundVariant, MarkerType, ConnectionMode, Panel, type OnReconnect, reconnectEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { initialEdges, initialNodes } from './constants';
 import { InputNode } from './components/node/input/InputNode';
@@ -52,6 +52,17 @@ export default function App() {
   const onPaneClick = () => {
     setSelectedNode(undefined)
   }
+
+  const edgeReconnectSuccessful = useRef(false)
+
+  const onReconnectStart = () => {
+    edgeReconnectSuccessful.current = false;
+  };
+
+  const onReconnect: OnReconnect = (oldEdge, newConnection) => {
+    edgeReconnectSuccessful.current = true;
+    setEdges((prevEdges) => reconnectEdge(oldEdge, newConnection, prevEdges));
+  };
  
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -71,6 +82,8 @@ export default function App() {
         connectionLineComponent={ConnectionLine}
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
+        onReconnectStart={onReconnectStart}
+        onReconnect={onReconnect}
       >
         <Panel 
           position='top-right'

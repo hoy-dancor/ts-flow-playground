@@ -39,6 +39,7 @@ export const InputNode = () => {
             onChange={(e) => setInput(e.target.value)} 
             className="nodrag"
             value={input}
+            style={{width: '100%'}}
         />
         <select onChange={(e) => setLevel(e.target.value)}>
           <option value="top">Top Level</option>
