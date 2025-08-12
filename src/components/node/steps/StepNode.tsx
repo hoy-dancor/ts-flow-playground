@@ -20,6 +20,13 @@ const StepNode = ({data}: NodeProps<StepNodeProps>) => {
         <p>Component: {data.component}</p>
         <CustomHandle type="source" position={Position.Right}/>
       </div>}
+      {data.stepNo === 3 && <div className={styles.stepBody}>
+        <CustomHandle type="target" position={Position.Left}/>
+        <p>Step {data.stepNo}</p>
+        <p>Action: {data.action}</p>
+        <p>Component: {data.component}</p>
+        <CustomHandle type="source" position={Position.Right}/>
+      </div>}
     </>
   )
 }

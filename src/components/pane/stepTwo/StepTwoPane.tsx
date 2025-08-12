@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Form, Label } from 'reactstrap';
 import styles from '../Pane.module.css'
-import { useReactFlow } from '@xyflow/react';
+import { MarkerType, useReactFlow } from '@xyflow/react';
 
 type PaneProps = {
     selectedNode?: any,
@@ -12,7 +12,7 @@ type PaneProps = {
 }
 
 const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps) => {
-    const { updateNodeData } = useReactFlow();
+    const { updateNodeData, setNodes, setEdges } = useReactFlow();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         formik.handleSubmit()
@@ -41,6 +41,39 @@ const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps)
             currentFlow[1] = dataToAdd
             updateNodeData('step-two', dataToAdd);
             setIntegrationFlow(currentFlow)
+
+            setNodes((prevNodes) => [
+                ...prevNodes, 
+                {
+                    id: 'step-three',
+                    type: 'step',
+                    position: {
+                        x: 500,
+                        y: 100
+                    },
+                    data: {
+                        stepNo: 3,
+                        action: 'patient_lookup',
+                        component: 'mcp_tools',
+                        api_call: '/tools/get_patient_demographics'
+                    }                        
+                }
+            ])
+
+            setEdges((prevEdges) => [
+                ...prevEdges,
+                { 
+                    id: 'two-three-bridge', 
+                    source: 'step-two', 
+                    target: 'step-three', 
+                    type: 'customEdge', 
+                    markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 20,
+                        height: 20,
+                        color: '#FFC300'
+                    }}
+            ])
         },
     });
     
@@ -65,7 +98,7 @@ const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps)
         {selectedNode.data.data && <div>
             <p>{selectedNode.data.data.recognized_intent}</p>
             <p>{selectedNode.data.data.confidence_score}</p>
-            {/* <p>Entities: {selectedNode.data.data.entities.map((entity: string) => entity)}</p> */}
+            <p>Entities: {selectedNode.data.data.entities.map((entity: string) => entity)}</p>
         </div>}
     </>
   )
