@@ -1,0 +1,15 @@
+.stepBody {
+    padding: 12px;
+    border: 2px solid black;
+    max-height: 100px;
+}
+
+.stepBody p:first-child {
+    border-bottom: 1px solid black;
+    width: 40%;
+}
+
+.stepBody p {
+    margin: 0px;
+
+}

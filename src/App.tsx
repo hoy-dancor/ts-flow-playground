@@ -1,16 +1,34 @@
 
 import { useState, useCallback, useRef } from 'react';
-import { ReactFlow, addEdge, type Connection, type Edge, useNodesState, useEdgesState, Background, MiniMap, Controls, BackgroundVariant, MarkerType, ConnectionMode, Panel, type OnReconnect, reconnectEdge } from '@xyflow/react';
+import { 
+  ReactFlow, 
+  addEdge, 
+  type Connection, 
+  type Edge, 
+  useNodesState, 
+  useEdgesState, 
+  Background, 
+  MiniMap, 
+  Controls, 
+  BackgroundVariant, 
+  MarkerType, 
+  ConnectionMode, 
+  Panel, 
+  type OnReconnect, 
+  reconnectEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { initialEdges, initialNodes } from './constants';
+import { initialEdges, initialFlow, initialNodes } from './constants';
 import { InputNode } from './components/node/input/InputNode';
 import { TextNode } from './components/node/TextNode'
 import { CustomEdge } from './components/edge/CustomEdge';
 import ConnectionLine from './components/connection/ConnectionLine';
+import StepNode from './components/node/steps/StepNode';
+import Pane from './components/pane/Pane';
  
 const nodeTypes = {
   input: InputNode,
   text: TextNode,
+  step: StepNode
 }
 
 const edgeTypes = {
@@ -19,6 +37,7 @@ const edgeTypes = {
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [integrationFlow, setIntegrationFlow] = useState(initialFlow)
 
   const isValidConnection = (connection: Edge | Connection) => {
       const { source, target } = connection
@@ -34,11 +53,11 @@ export default function App() {
     // add edge first argument is the new edge you are adding
     // 
     (params: Edge | Connection) => setEdges((eds) => addEdge({...params, animated: false, type: 'customEdge', markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 20,
-                height: 20,
-                color: '#FFC300'
-            } }, eds)),
+      type: MarkerType.ArrowClosed,
+      width: 20,
+      height: 20,
+      color: '#FFC300'
+    }}, eds)),
     [],
   );
 
@@ -72,7 +91,6 @@ export default function App() {
  
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      {selectedNode && <div>{selectedNode?.data?.text}</div>}
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -92,6 +110,7 @@ export default function App() {
         onReconnect={onReconnect}
         onReconnectEnd={onReconnectEnd}
       >
+        {selectedNode && <Pane selectedNode={selectedNode} integrationFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>}
         <Panel 
           position='top-right'
           style={{
