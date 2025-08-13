@@ -37,10 +37,17 @@ const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps)
                     entities: ['routine_checkup', 'Dr_Johnson', 'next_week']
                 }
             }
+            const nodeThree = {
+                stepNo: 3,
+                action: 'patient_lookup',
+                component: 'mcp_tools',
+                api_call: '/tools/get_patient_demographics'
+            }  
             // call the update node method
             currentFlow[1] = dataToAdd
             updateNodeData('step-two', dataToAdd);
-            setIntegrationFlow(currentFlow)
+
+            setIntegrationFlow([...currentFlow, nodeThree])
 
             setNodes((prevNodes) => [
                 ...prevNodes, 
@@ -51,12 +58,7 @@ const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps)
                         x: 500,
                         y: 100
                     },
-                    data: {
-                        stepNo: 3,
-                        action: 'patient_lookup',
-                        component: 'mcp_tools',
-                        api_call: '/tools/get_patient_demographics'
-                    }                        
+                    data: nodeThree                       
                 }
             ])
 

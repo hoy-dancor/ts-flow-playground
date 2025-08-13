@@ -17,6 +17,8 @@ const Pane = ({selectedNode, integrationFlow, setIntegrationFlow}: PaneProps) =>
         {selectedNode?.type === 'step' && <>
             {selectedNode.data.stepNo === 1 && <StepOnePane selectedNode={selectedNode}/>}
             {selectedNode.data.stepNo === 2 && <StepTwoPane selectedNode={selectedNode} currentFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>}
+            {/* {selectedNode.data.stepNo === 2 && <StepTwoPane selectedNode={selectedNode} currentFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>} */}
+            {selectedNode.data.stepNo === 3 && <p>test</p>}
         </>}
     </div>
   )
