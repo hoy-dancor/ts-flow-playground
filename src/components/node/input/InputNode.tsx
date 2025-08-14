@@ -6,13 +6,14 @@ import styles from './InputNode.module.css'
 export const InputNode = () => {
     const [input, setInput] = useState('')
     const [level, setLevel] = useState('top')
-    const {setNodes} = useReactFlow()
+    const {setNodes, getNodes} = useReactFlow()
 
     const handleClick = () => {
+        const nodes = getNodes()
         setNodes((prevNodes) => [
             ...prevNodes, 
             {
-                id: nanoid(),
+                id: `${input}-${nodes.length}`,
                 type: 'text',
                 position: {
                     x: Math.random() * 100,
@@ -31,8 +32,6 @@ export const InputNode = () => {
   return (
     <div className={styles.inputBody}>
     <Handle type="target" position={Position.Top}/>
- 
-        
         <input 
             id="text" 
             name="text" 
@@ -45,7 +44,7 @@ export const InputNode = () => {
           <option value="top">Top Level</option>
           <option value="unit">Unit level</option>
         </select>
-        <button onClick={handleClick}>Add</button>
+        <button onClick={handleClick} disabled={input.length === 0}>Add</button>
      
       <Handle type="source" position={Position.Bottom}/>
     </div>

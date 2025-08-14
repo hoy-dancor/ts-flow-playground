@@ -54,12 +54,22 @@ export default function App() {
     // set edges sets the the new array of edges,
     // add edge first argument is the new edge you are adding
     // 
-    (params: Edge | Connection) => setEdges((eds) => addEdge({...params, animated: false, type: 'customEdge', markerEnd: {
-      type: MarkerType.ArrowClosed,
-      width: 20,
-      height: 20,
-      color: '#FFC300'
-    }}, eds)),
+    (params: Edge | Connection) => {
+      console.log('INside making an edge: ', params)
+      setEdges(
+      (eds) => addEdge({
+        ...params, 
+        id: `edge-${params.source}-to-${params.target}`,
+        animated: false, 
+        type: 'customEdge',
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 20,
+          height: 20,
+          color: '#FFC300'
+        }}, eds)
+      ) 
+    },
     [],
   );
 
