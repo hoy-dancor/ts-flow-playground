@@ -8,10 +8,11 @@ import { MarkerType, useReactFlow } from '@xyflow/react';
 type PaneProps = {
     selectedNode?: any,
     setIntegrationFlow: Function,
-    currentFlow: Array<any>
+    currentFlow: Array<any>,
+    setSelectedNode: Function
 }
 
-const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps) => {
+const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow, setSelectedNode}: PaneProps) => {
     const { updateNodeData, setNodes, setEdges } = useReactFlow();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -76,6 +77,8 @@ const StepTwoPane = ({selectedNode, setIntegrationFlow, currentFlow}: PaneProps)
                         color: '#FFC300'
                     }}
             ])
+
+            setSelectedNode()
         },
     });
     

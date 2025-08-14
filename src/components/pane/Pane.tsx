@@ -6,17 +6,18 @@ import StepTwoPane from './stepTwo/StepTwoPane'
 type PaneProps = {
     selectedNode?: any,
     setIntegrationFlow: Function,
-    integrationFlow: Array<any>
+    integrationFlow: Array<any>,
+    setSelectedNode: Function
 }
 
-const Pane = ({selectedNode, integrationFlow, setIntegrationFlow}: PaneProps) => {
+const Pane = ({selectedNode, integrationFlow, setIntegrationFlow, setSelectedNode}: PaneProps) => {
 
   return (
     <div className={styles.paneBody}>
         {selectedNode?.type === 'text' && <div>{selectedNode.data.text}</div>}
         {selectedNode?.type === 'step' && <>
             {selectedNode.data.stepNo === 1 && <StepOnePane selectedNode={selectedNode}/>}
-            {selectedNode.data.stepNo === 2 && <StepTwoPane selectedNode={selectedNode} currentFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>}
+            {selectedNode.data.stepNo === 2 && <StepTwoPane selectedNode={selectedNode} currentFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow} setSelectedNode={setSelectedNode}/>}
             {/* {selectedNode.data.stepNo === 2 && <StepTwoPane selectedNode={selectedNode} currentFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>} */}
             {selectedNode.data.stepNo === 3 && <p>test</p>}
         </>}

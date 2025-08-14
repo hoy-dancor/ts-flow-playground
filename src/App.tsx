@@ -5,6 +5,7 @@ import {
   addEdge, 
   type Connection, 
   type Edge, 
+  type Node,
   useNodesState, 
   useEdgesState, 
   Background, 
@@ -15,7 +16,8 @@ import {
   ConnectionMode, 
   Panel, 
   type OnReconnect, 
-  reconnectEdge } from '@xyflow/react';
+  reconnectEdge, 
+  type ReactFlowInstance} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { initialEdges, initialFlow, initialNodes } from './constants';
 import { InputNode } from './components/node/input/InputNode';
@@ -88,10 +90,17 @@ export default function App() {
       setEdges(prevEdges => prevEdges.filter((prevEdge) => prevEdge.id !== edge.id))
     }
   };
+
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance<Node, Edge> | null>(null)
+
+  const handleSave = () => {
+    console.log(rfInstance?.toObject())
+  }
  
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlow
+        onInit={setRfInstance}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
@@ -110,7 +119,7 @@ export default function App() {
         onReconnect={onReconnect}
         onReconnectEnd={onReconnectEnd}
       >
-        {selectedNode && <Pane selectedNode={selectedNode} integrationFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>}
+        {selectedNode && <Pane selectedNode={selectedNode} setSelectedNode={setSelectedNode} integrationFlow={integrationFlow} setIntegrationFlow={setIntegrationFlow}/>}
         <Panel 
           position='top-right'
           style={{
@@ -123,6 +132,7 @@ export default function App() {
           }}
         >
           <h3>This is the panel</h3>
+          <button onClick={handleSave}>Press</button>
         </Panel>
         <Background variant={BackgroundVariant.Lines} gap={10} color='#f1f1f1' id='1'/>
         <Background variant={BackgroundVariant.Lines} gap={100} color='#ccc' id='2'/>
