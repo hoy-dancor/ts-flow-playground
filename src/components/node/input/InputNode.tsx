@@ -43,6 +43,7 @@ export const InputNode = () => {
         <select onChange={(e) => setLevel(e.target.value)}>
           <option value="top">Top Level</option>
           <option value="unit">Unit level</option>
+          <option value="end">End level</option>
         </select>
         <button onClick={handleClick} disabled={input.length === 0}>Add</button>
      

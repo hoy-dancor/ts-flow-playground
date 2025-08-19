@@ -55,7 +55,6 @@ export default function App() {
     // add edge first argument is the new edge you are adding
     // 
     (params: Edge | Connection) => {
-      console.log('INside making an edge: ', params)
       setEdges(
       (eds) => addEdge({
         ...params, 
@@ -76,7 +75,6 @@ export default function App() {
   const [selectedNode, setSelectedNode] = useState<Node | undefined>();
 
   const onNodeClick = (event: React.MouseEvent<Element>, node: Node) => {
-    console.log("Selected node: ", node)
     setSelectedNode(node)
   }
 

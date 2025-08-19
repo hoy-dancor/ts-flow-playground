@@ -4,16 +4,24 @@ import styles from './Node.module.css'
 import CustomHandle from "../CustomHandle";
 
 export const TextNode = ({data, id}: NodeProps<TextNodeProps>) => {
-  const {setNodes, getNodes} = useReactFlow()
+  const {setNodes, getNodes, setEdges, getEdges} = useReactFlow()
 
   const handleClick = () => {
     const oldNodes = getNodes()
-    const newArray = oldNodes.filter((node) => {
+    const oldEdges = getEdges()
+    const newNodesArray = oldNodes.filter((node) => {
       return node.id !== id
     })
+    const newEdgesArray = oldEdges.filter((edge) => {
+      return edge.source !== id && edge.target !== id
+    })
+   
     setNodes(() => [
-                ...newArray 
-            ])    
+                ...newNodesArray 
+            ])
+    setEdges(() => [
+      ...newEdgesArray
+    ])  
   }
   return (
     <>
@@ -21,7 +29,7 @@ export const TextNode = ({data, id}: NodeProps<TextNodeProps>) => {
         <span>{data.text}</span>
         <span onClick={handleClick} className={styles.delete}>X</span>
       </div>
-      <CustomHandle type="source" position={Position.Right}/>
+      {data.level !== "end" && <CustomHandle type="source" position={Position.Right}/>}
       {data.level !== "top" && <CustomHandle type="target" position={Position.Left}/>}
     </>
   );
